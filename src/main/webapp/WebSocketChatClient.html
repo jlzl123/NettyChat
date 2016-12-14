@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+       var socket;
+       if(!window.WebSocket){
+    	   window.WebSocket=Window.MozWebSocket;
+       }
+       if(window.WebSocket){
+    	   socket=new WebSocket("ws://127.0.0.1:7878/ws");
+    	   socket.onmessage=function(event){
+    		   var ta=document.getElementById("responeText");
+    		   ta.value=ta.value+"\n"+event.data;
+    	   };
+    	   socket.onopen=function(event){
+    		   var ta=document.getElementById("responeText");
+    		   ta.value="连接开启!";
+    	   }
+    	   socket.onclose=function(event){
+    		   var ta=document.getElementById("responeText");
+    		   ta.value=ta.value+"连接被关闭";
+    	   }    	   
+       }else {
+		alert("你的浏览器不支持 WebSocket！");
+	   }
+       
+       function send(message) {
+		   if(!window.WebSocket){
+			   return;
+		   }
+		   if(socket.readyState==WebSocket.OPEN){
+			   socket.send(message);
+		   }else{
+			   alert("连接没有开启.");
+		   }
+	}
+</script>
+</head>
+<body>
+      <form onsubmit="return false">
+             <textarea id="responeText" style="width: 500px;height: 300px"></textarea><br>
+             <input id="message" name="message" style="width: 300px" type="text">
+             <input type="button" value="发送消息" onclick="send(this.form.message.value)">
+             <input type="button" value="清空聊天记录" 
+                    onclick="javascript:document.getElementById('responeText').value=' '">
+      </form>
+</body>
+</html>
