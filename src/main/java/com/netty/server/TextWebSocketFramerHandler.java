@@ -18,9 +18,9 @@ public class TextWebSocketFramerHandler extends SimpleChannelInboundHandler<Text
 		Channel incoming=ctx.channel();
 		for(Channel channel:channels){
 			if(channel!=incoming){
-				channel.writeAndFlush(new TextWebSocketFrame("["+incoming.remoteAddress()+"]"+msg.text()));				
+				channel.writeAndFlush(new TextWebSocketFrame("["+incoming.remoteAddress()+"]:"+msg.text()));				
 			}else{
-				channel.writeAndFlush(new TextWebSocketFrame("[you]"+msg.text()));
+				channel.writeAndFlush(new TextWebSocketFrame("[you]:"+msg.text()));
 			}
 		}
 	}

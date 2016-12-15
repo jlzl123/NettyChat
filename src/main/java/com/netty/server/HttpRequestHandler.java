@@ -28,6 +28,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
 	private static final File INDEX;
 
 	static{
+		//获得类运行时的本地路径
 		URL location=HttpRequestHandler.class.getProtectionDomain().getCodeSource().getLocation();
 		try{
 			String path=location.toURI()+"WebSocketChatClient.html";
@@ -56,7 +57,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
 				send100Continue(ctx);
 			}
 			
-			//读取默认的 WebsocketChatClient.html 页面
+			//读取默认的 WebsocketChatClient.html 页面,"r" 以只读方式打开 
 			RandomAccessFile file=new RandomAccessFile(INDEX, "r");
 			
 			HttpResponse respone=new DefaultHttpResponse(request.getProtocolVersion(),HttpResponseStatus.OK);

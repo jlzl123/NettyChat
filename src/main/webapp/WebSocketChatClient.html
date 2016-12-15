@@ -5,19 +5,22 @@
 <title>Insert title here</title>
 <script type="text/javascript">
        var socket;
-       if(!window.WebSocket){
+       if(!window.WebSocket){//检测浏览器是否支持WebSocket
     	   window.WebSocket=Window.MozWebSocket;
        }
        if(window.WebSocket){
     	   socket=new WebSocket("ws://127.0.0.1:7878/ws");
+    	   //接收到后台消息时会触发到onmessage事件
     	   socket.onmessage=function(event){
     		   var ta=document.getElementById("responeText");
     		   ta.value=ta.value+"\n"+event.data;
     	   };
+    	   //连接打开时，回调onopen方法
     	   socket.onopen=function(event){
     		   var ta=document.getElementById("responeText");
     		   ta.value="连接开启!";
     	   }
+    	   //后台关闭时调用onclose
     	   socket.onclose=function(event){
     		   var ta=document.getElementById("responeText");
     		   ta.value=ta.value+"连接被关闭";
@@ -31,7 +34,7 @@
 			   return;
 		   }
 		   if(socket.readyState==WebSocket.OPEN){
-			   socket.send(message);
+			   socket.send(message);//发送消息
 		   }else{
 			   alert("连接没有开启.");
 		   }
